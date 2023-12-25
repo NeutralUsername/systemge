@@ -1,0 +1,19 @@
+go 1.21.3
+
+use (
+    ./System
+    ./ConsoleClient
+
+    ./TCPUtilities
+    ./UserUtilities
+    ./ServerUtilities
+    ./DBUtilities
+    ./Utilities
+    ./MessageTypes
+    ./Ports
+    
+    ./WebsocketServer
+    ./UserServer
+    ./HTTPUtilities
+    
+)

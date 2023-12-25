@@ -1,0 +1,12 @@
+
+body {
+    overscroll-behavior-y: contain;
+}
+body {
+  position: relative;
+}
+
+* {
+  overscroll-behavior: none;
+  touch-action : manipulation
+}

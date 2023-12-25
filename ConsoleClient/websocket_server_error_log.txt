@@ -1,0 +1,40 @@
+2023/12/25 15:27:24 logger.go:16: Invalid message type: leaderboard
+2023/12/25 15:27:27 logger.go:16: Invalid message type: leaderboard
+2023/12/25 15:27:36 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:36 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:36 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:36 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:37 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:37 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:38 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:38 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:38 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:39 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:39 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:39 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:40 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:40 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:41 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:41 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:41 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:41 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:42 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:27:42 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:28:02 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:28:06 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:28:06 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:29:29 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:29:30 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:29:31 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:29:31 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:29:32 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:30:55 logger.go:16: Error: Could not create new guest user.
+2023/12/25 15:34:24 logger.go:16: Invalid message type: userShowCommunicator
+2023/12/25 15:34:25 logger.go:16: Invalid message type: userShowCommunicator
+2023/12/25 15:34:25 logger.go:16: Invalid message type: userShowNotifications
+2023/12/25 15:34:26 logger.go:16: Invalid message type: userShowNotifications
+2023/12/25 15:34:26 logger.go:16: Invalid message type: userShowNotifications
+2023/12/25 15:35:41 logger.go:16: Invalid message type: userShowNotifications
+2023/12/25 15:35:42 logger.go:16: Invalid message type: userShowNotifications
+2023/12/25 15:35:44 logger.go:16: Invalid message type: userShowNotifications
+2023/12/25 15:41:47 logger.go:16: Invalid message type: profile
