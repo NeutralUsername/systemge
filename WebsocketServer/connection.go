@@ -45,8 +45,8 @@ func (server *WebsocketServer) removeConnection(connection *Connection) {
 	connection.watchdog.Stop()
 	connection.connection.Close()
 
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	user := connection.user
 	connection.user = nil
@@ -61,12 +61,12 @@ func (server *WebsocketServer) removeConnection(connection *Connection) {
 }
 
 func (server *WebsocketServer) addConnection(userId int, wsConnection *websocket.Conn) *Connection {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
-	connectionId := server.Base.Random.GenerateRandomString(CONNECTION_ID_LENGTH, VALID_CONNECTION_ID_CHARS)
+	connectionId := server.Random.GenerateRandomString(CONNECTION_ID_LENGTH, VALID_CONNECTION_ID_CHARS)
 	for server.ConnectionIdMap[connectionId] != nil {
-		connectionId = server.Base.Random.GenerateRandomString(CONNECTION_ID_LENGTH, VALID_CONNECTION_ID_CHARS)
+		connectionId = server.Random.GenerateRandomString(CONNECTION_ID_LENGTH, VALID_CONNECTION_ID_CHARS)
 	}
 
 	go server.insertConnection(userId, connectionId, time.Now())
@@ -87,8 +87,8 @@ func (server *WebsocketServer) addConnection(userId int, wsConnection *websocket
 }
 
 func (server *WebsocketServer) changeUser(connection *Connection, userId int) {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	oldUser := server.ConnectionIdMap[connection.id]
 	delete(server.ConnectionIdMap, connection.id)

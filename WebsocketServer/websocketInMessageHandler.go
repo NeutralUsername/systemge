@@ -102,7 +102,7 @@ func (server *WebsocketServer) handleShowTutorial(connection *Connection, messag
 }
 
 func (server *WebsocketServer) handleUnknownMessage(connection *Connection, messageType string) {
-	server.Base.Logger.Log("Invalid message type: " + messageType)
+	server.Logger.Log("Invalid message type: " + messageType)
 	connection.message(TCPUtilities.ConstructMessage("invalidMessageType", []string{messageType}, nil))
 	/* connection.watchdog.Reset(1 * time.Millisecond) */
 }

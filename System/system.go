@@ -26,12 +26,12 @@ func CreateSystem(tls bool) *System {
 	if tls {
 		webServer = InitializeWebServerTLS()
 		redirectServer = InitializeRedirectServerTLS()
-		websocketServer = InitializeWebsocketServerTLS(dbConnection)
 	} else {
 		webServer = InitializeWebServer()
 		redirectServer = nil
-		websocketServer = InitializeWebsocketServer(dbConnection)
+
 	}
+	websocketServer = InitializeWebsocketServer(dbConnection)
 	return &System{
 		TLS:             tls,
 		Status:          CLOSED,
@@ -50,7 +50,7 @@ func (system *System) Start() {
 	}
 	println("#### starting servers ####")
 
-	go system.UserServer.Base.TcpListener.Start()
+	go system.UserServer.TcpListener.Start()
 	println("userserver ✓")
 
 	if system.TLS {
@@ -68,7 +68,7 @@ func (system *System) Start() {
 		go system.WebsocketServer.WsListener.StartHTTP()
 	}
 
-	go system.WebsocketServer.Base.TcpListener.Start()
+	go system.WebsocketServer.TcpListener.Start()
 	println("websocketserver ✓")
 
 	system.Status = LIVE
@@ -95,16 +95,16 @@ func (system *System) Close() {
 	system.WebsocketServer.DisconnectConnections()
 
 	for system.WebsocketServer.ConnectedWebsocketsCount() > 0 ||
-		system.WebsocketServer.Base.TcpListener.OngoingRequestCount() > 0 ||
-		system.UserServer.Base.TcpListener.OngoingRequestCount() > 0 {
+		system.WebsocketServer.TcpListener.OngoingRequestCount() > 0 ||
+		system.UserServer.TcpListener.OngoingRequestCount() > 0 {
 
 		time.Sleep(100 * time.Millisecond)
 	}
 
-	system.WebsocketServer.Base.TcpListener.Stop()
+	system.WebsocketServer.TcpListener.Stop()
 	println("websocketserver ✗")
 
-	system.UserServer.Base.TcpListener.Stop()
+	system.UserServer.TcpListener.Stop()
 	println("userserver ✗")
 
 	system.Status = CLOSED

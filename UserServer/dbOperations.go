@@ -10,7 +10,7 @@ import (
 func (server *UserServer) insertUser(username string, password string, email string, secretQuestion string, secretAnswer string,
 	userPower int, createdAt time.Time, registeredAt time.Time, confirmedAt time.Time,
 	showCommunicator bool, communicatorContent int, showTutorial bool, uiTheme int) *UserUtilities.User {
-	result, err := server.Base.DbConnection.Exec("INSERT INTO users ("+
+	result, err := server.DbConnection.Exec("INSERT INTO users ("+
 		"username, password, email, secretQuestion, secretAnswer, userPower, createdAt, registeredAt, "+
 		"confirmedAt, showCommunicator, communicatorContent, showTutorial, uiTheme"+
 		") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -20,12 +20,12 @@ func (server *UserServer) insertUser(username string, password string, email str
 		showCommunicator, communicatorContent, showTutorial, uiTheme)
 
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return nil
 	}
 	userId, err := result.LastInsertId()
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return nil
 	}
 	return UserUtilities.CreateUser(int(userId), username, password, email, secretQuestion, secretAnswer, userPower, createdAt, registeredAt, confirmedAt, showCommunicator, communicatorContent, showTutorial, uiTheme)
@@ -52,7 +52,7 @@ func (server *UserServer) userSelectHandler(row *sql.Row) *UserUtilities.User {
 		&showCommunicator, &communicatorContent, &showTutorial, &uiTheme)
 	if err != nil {
 		if err != sql.ErrNoRows {
-			server.Base.Logger.Log(err.Error())
+			server.Logger.Log(err.Error())
 		}
 		return nil
 	}
@@ -60,7 +60,7 @@ func (server *UserServer) userSelectHandler(row *sql.Row) *UserUtilities.User {
 }
 
 func (server *UserServer) selectUserByUsernameAndPassword(username string, password string) *UserUtilities.User {
-	row := server.Base.DbConnection.QueryRow("SELECT * "+
+	row := server.DbConnection.QueryRow("SELECT * "+
 		"FROM users "+
 		"WHERE username = ? AND password = ?",
 		username, password)
@@ -69,7 +69,7 @@ func (server *UserServer) selectUserByUsernameAndPassword(username string, passw
 }
 
 func (server *UserServer) selectUserByUserId(userId int) *UserUtilities.User {
-	row := server.Base.DbConnection.QueryRow("SELECT * "+
+	row := server.DbConnection.QueryRow("SELECT * "+
 		"FROM users "+
 		"WHERE id = ?",
 		userId)
@@ -78,7 +78,7 @@ func (server *UserServer) selectUserByUserId(userId int) *UserUtilities.User {
 }
 
 func (server *UserServer) selectUserByUsername(username string) *UserUtilities.User {
-	row := server.Base.DbConnection.QueryRow("SELECT * "+
+	row := server.DbConnection.QueryRow("SELECT * "+
 		"FROM users "+
 		"WHERE username = ?",
 		username)
@@ -89,7 +89,7 @@ func (server *UserServer) selectUserByUsername(username string) *UserUtilities.U
 func (server *UserServer) updateUserRegistration(userId int, username string, password string, email string, secretQuestion string,
 	secretAnswer string, userPower int, createdAt time.Time, registeredAt time.Time, confirmedAt time.Time,
 	showCommunicator bool, communicatorContent int, showTutorial bool, uiTheme int) bool {
-	res, err := server.Base.DbConnection.Exec("UPDATE users SET "+
+	res, err := server.DbConnection.Exec("UPDATE users SET "+
 		"username = ?, password = ?, email = ?, secretQuestion = ?, secretAnswer = ?, userPower = ?, createdAt = ?, registeredAt = ?, "+
 		"confirmedAt = ?, showCommunicator = ?, communicatorContent = ?, showTutorial = ?, uiTheme = ? "+
 		"WHERE id = ? AND userPower = ?",
@@ -98,7 +98,7 @@ func (server *UserServer) updateUserRegistration(userId int, username string, pa
 		Utilities.TimeToSqlString(registeredAt), Utilities.TimeToSqlString(confirmedAt),
 		showCommunicator, communicatorContent, showTutorial, uiTheme, userId, UserUtilities.USER_POWER_GUEST)
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return false
 	}
 	if count, err := res.RowsAffected(); err != nil || count == 0 {
@@ -108,12 +108,12 @@ func (server *UserServer) updateUserRegistration(userId int, username string, pa
 }
 
 func (server *UserServer) updateUserShowCommunicator(userId int, showCommunicator bool) bool {
-	res, err := server.Base.DbConnection.Exec("UPDATE users SET "+
+	res, err := server.DbConnection.Exec("UPDATE users SET "+
 		"showCommunicator = ? "+
 		"WHERE id = ? AND showCommunicator != ?",
 		showCommunicator, userId, showCommunicator)
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return false
 	}
 	if count, err := res.RowsAffected(); err != nil || count == 0 {
@@ -123,12 +123,12 @@ func (server *UserServer) updateUserShowCommunicator(userId int, showCommunicato
 }
 
 func (server *UserServer) updateUserCommunicatorContent(userId int, communicatorContent int) bool {
-	res, err := server.Base.DbConnection.Exec("UPDATE users SET "+
+	res, err := server.DbConnection.Exec("UPDATE users SET "+
 		"communicatorContent = ? "+
 		"WHERE id = ? AND communicatorContent != ?",
 		communicatorContent, userId, communicatorContent)
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return false
 	}
 	if count, err := res.RowsAffected(); err != nil || count == 0 {
@@ -138,12 +138,12 @@ func (server *UserServer) updateUserCommunicatorContent(userId int, communicator
 }
 
 func (server *UserServer) updateUserShowTutorial(userId int, showTutorial bool) bool {
-	res, err := server.Base.DbConnection.Exec("UPDATE users SET "+
+	res, err := server.DbConnection.Exec("UPDATE users SET "+
 		"showTutorial = ? "+
 		"WHERE id = ? AND showTutorial != ?",
 		showTutorial, userId, showTutorial)
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return false
 	}
 	if count, err := res.RowsAffected(); err != nil || count == 0 {
@@ -153,12 +153,12 @@ func (server *UserServer) updateUserShowTutorial(userId int, showTutorial bool) 
 }
 
 func (server *UserServer) updateUserUiTheme(userId int, uiTheme int) bool {
-	res, err := server.Base.DbConnection.Exec("UPDATE users SET "+
+	res, err := server.DbConnection.Exec("UPDATE users SET "+
 		"uiTheme = ? "+
 		"WHERE id = ? AND uiTheme != ?",
 		uiTheme, userId, uiTheme)
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return false
 	}
 	if count, err := res.RowsAffected(); err != nil || count == 0 {
@@ -168,9 +168,9 @@ func (server *UserServer) updateUserUiTheme(userId int, uiTheme int) bool {
 }
 
 func (server *UserServer) deleteUser(userId int) bool {
-	res, err := server.Base.DbConnection.Exec("DELETE FROM users WHERE id = ?", userId)
+	res, err := server.DbConnection.Exec("DELETE FROM users WHERE id = ?", userId)
 	if err != nil {
-		server.Base.Logger.Log(err.Error())
+		server.Logger.Log(err.Error())
 		return false
 	}
 	if count, err := res.RowsAffected(); err != nil || count == 0 {

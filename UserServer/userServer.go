@@ -1,16 +1,19 @@
 package UserServer
 
 import (
-	"ServerUtilities"
+	"TCPUtilities"
+	"Utilities"
+	"database/sql"
 )
 
 type UserServer struct {
-	Base *ServerUtilities.ServerBase
+	TcpListener  *TCPUtilities.Listener
+	DbConnection *sql.DB
+	Logger       *Utilities.Logger
+	Random       *Utilities.Random
 }
 
 func CreateUserServer() *UserServer {
-	server := &UserServer{
-		Base: ServerUtilities.CreateServerBase(),
-	}
+	server := &UserServer{}
 	return server
 }

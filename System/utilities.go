@@ -3,6 +3,7 @@ package System
 import (
 	"HTTPUtilities"
 	"Ports"
+	"TCPUtilities"
 	"UserServer"
 	"Utilities"
 	"WebsocketServer"
@@ -32,24 +33,10 @@ func InitializeRedirectServerTLS() *HTTPUtilities.HTTPServer {
 
 func InitializeWebsocketServer(dbConnection *sql.DB) *WebsocketServer.WebsocketServer {
 	websocketServer := WebsocketServer.CreateWebsocketServer()
-	websocketServer.Base.SetTcpListener(Ports.WEBSOCKETSERVER_TCP_LISTENER, websocketServer.HandleTcpMessage)
-	websocketServer.Base.Random = Utilities.CreateRandom()
-	websocketServer.Base.Logger = Utilities.CreateLogger(WEBSOCKET_SERVER_ERROR_LOG_PATH)
-	websocketServer.Base.DbConnection = dbConnection
-	websocketServer.CreateConnectionsTable()
-	websocketServer.CreateDisconnectsTable()
-	websocketServer.WsListener = HTTPUtilities.CreateHttpServer(Ports.WEBSOCKET_LISTENER, http.NewServeMux())
-	websocketServer.WsListener.SetHandlerFunc("/ws", websocketServer.HandleWebsocketConnection())
-
-	return websocketServer
-}
-
-func InitializeWebsocketServerTLS(dbConnection *sql.DB) *WebsocketServer.WebsocketServer {
-	websocketServer := WebsocketServer.CreateWebsocketServer()
-	websocketServer.Base.SetTcpListener(Ports.WEBSOCKETSERVER_TCP_LISTENER, websocketServer.HandleTcpMessage)
-	websocketServer.Base.Random = Utilities.CreateRandom()
-	websocketServer.Base.Logger = Utilities.CreateLogger(WEBSOCKET_SERVER_ERROR_LOG_PATH)
-	websocketServer.Base.DbConnection = dbConnection
+	websocketServer.TcpListener = TCPUtilities.CreateListener(Ports.WEBSOCKETSERVER_TCP_LISTENER, websocketServer.HandleTcpMessage)
+	websocketServer.Random = Utilities.CreateRandom()
+	websocketServer.Logger = Utilities.CreateLogger(WEBSOCKET_SERVER_ERROR_LOG_PATH)
+	websocketServer.DbConnection = dbConnection
 	websocketServer.CreateConnectionsTable()
 	websocketServer.CreateDisconnectsTable()
 	websocketServer.WsListener = HTTPUtilities.CreateHttpServer(Ports.WEBSOCKET_LISTENER, http.NewServeMux())
@@ -60,10 +47,10 @@ func InitializeWebsocketServerTLS(dbConnection *sql.DB) *WebsocketServer.Websock
 
 func InitializeUserServer(dbConnection *sql.DB) *UserServer.UserServer {
 	userServer := UserServer.CreateUserServer()
-	userServer.Base.SetTcpListener(Ports.USERSERVER_TCP_LISTENER, userServer.HandleTcpMessage)
-	userServer.Base.Random = Utilities.CreateRandom()
-	userServer.Base.Logger = Utilities.CreateLogger(USER_SERVER_ERROR_LOG_PATH)
-	userServer.Base.DbConnection = dbConnection
+	userServer.TcpListener = TCPUtilities.CreateListener(Ports.USERSERVER_TCP_LISTENER, userServer.HandleTcpMessage)
+	userServer.Random = Utilities.CreateRandom()
+	userServer.Logger = Utilities.CreateLogger(USER_SERVER_ERROR_LOG_PATH)
+	userServer.DbConnection = dbConnection
 	userServer.CreateUsersTable()
 
 	return userServer

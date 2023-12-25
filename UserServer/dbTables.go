@@ -1,7 +1,7 @@
 package UserServer
 
 func (server *UserServer) CreateUsersTable() {
-	_, err := server.Base.DbConnection.Exec("CREATE TABLE IF NOT EXISTS users (" +
+	_, err := server.DbConnection.Exec("CREATE TABLE IF NOT EXISTS users (" +
 		"id int PRIMARY KEY AUTO_INCREMENT, " +
 		"username VARCHAR(50) COLLATE utf8_bin UNIQUE, " +
 		"password CHAR(64), " +

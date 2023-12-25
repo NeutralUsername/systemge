@@ -1,7 +1,7 @@
 package WebsocketServer
 
 func (server *WebsocketServer) CreateConnectionsTable() {
-	_, err := server.Base.DbConnection.Exec("CREATE TABLE IF NOT EXISTS connections (" +
+	_, err := server.DbConnection.Exec("CREATE TABLE IF NOT EXISTS connections (" +
 		"id int PRIMARY KEY AUTO_INCREMENT, " +
 		"userId int, " +
 		"connectionId CHAR(16), " +
@@ -16,7 +16,7 @@ func (server *WebsocketServer) CreateConnectionsTable() {
 }
 
 func (server *WebsocketServer) CreateDisconnectsTable() {
-	_, err := server.Base.DbConnection.Exec("CREATE TABLE IF NOT EXISTS disconnects (" +
+	_, err := server.DbConnection.Exec("CREATE TABLE IF NOT EXISTS disconnects (" +
 		"id int PRIMARY KEY AUTO_INCREMENT, " +
 		"userId int, " +
 		"connectionId CHAR(16), " +

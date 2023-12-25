@@ -15,7 +15,7 @@ func (server *WebsocketServer) HandleWebsocketConnection() func(http.ResponseWri
 				if newGuestUserId := server.NewGuest(); newGuestUserId != -1 {
 					userId = newGuestUserId
 				} else {
-					server.Base.Logger.Log("Error: Could not create new guest user.")
+					server.Logger.Log("Error: Could not create new guest user.")
 					wsConnection.Close()
 					return
 				}
@@ -31,7 +31,7 @@ func (server *WebsocketServer) HandleWebsocketConnection() func(http.ResponseWri
 				break
 			}
 		} else {
-			server.Base.Logger.Log("Error: Could not upgrade connection to websocket.")
+			server.Logger.Log("Error: Could not upgrade connection to websocket.")
 		}
 	}
 }

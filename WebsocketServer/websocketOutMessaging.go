@@ -10,8 +10,8 @@ func (WebsocketConnection *Connection) message(message []byte) {
 }
 
 func (server *WebsocketServer) messageConnectionByConnectionId(connectionId string, message []byte) {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	if user := server.ConnectionIdMap[connectionId]; user != nil {
 		if connection := user.connections[connectionId]; connection != nil {
@@ -21,8 +21,8 @@ func (server *WebsocketServer) messageConnectionByConnectionId(connectionId stri
 }
 
 func (server *WebsocketServer) messageUserByConnectionId(connectionId string, message []byte) {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	if user := server.ConnectionIdMap[connectionId]; user != nil {
 		for _, connection := range user.connections {
@@ -32,8 +32,8 @@ func (server *WebsocketServer) messageUserByConnectionId(connectionId string, me
 }
 
 func (server *WebsocketServer) messageUserIds(userIds []int, message []byte) {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	for _, userId := range userIds {
 		if user := server.UserIdMap[userId]; user != nil {

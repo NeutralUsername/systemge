@@ -6,7 +6,6 @@ use (
 
     ./TCPUtilities
     ./UserUtilities
-    ./ServerUtilities
     ./DBUtilities
     ./Utilities
     ./MessageTypes

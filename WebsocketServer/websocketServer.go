@@ -2,8 +2,10 @@ package WebsocketServer
 
 import (
 	"HTTPUtilities"
-	"ServerUtilities"
+	"TCPUtilities"
 	"Utilities"
+	"database/sql"
+	"sync"
 	"time"
 )
 
@@ -11,20 +13,24 @@ type WebsocketServer struct {
 	WsListener      *HTTPUtilities.HTTPServer
 	ConnectionIdMap map[string]*User
 	UserIdMap       map[int]*User
+	mutex           *sync.Mutex
 
-	Base *ServerUtilities.ServerBase
+	TcpListener  *TCPUtilities.Listener
+	DbConnection *sql.DB
+	Logger       *Utilities.Logger
+	Random       *Utilities.Random
 }
 
 func (server *WebsocketServer) ConnectedWebsocketsCount() int {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	return len(server.ConnectionIdMap)
 }
 
 func (server *WebsocketServer) ConnectedWebsockets() []string {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 
 	connections := make([]string, 0, len(server.ConnectionIdMap))
 	for connectionId, user := range server.ConnectionIdMap {
@@ -34,8 +40,8 @@ func (server *WebsocketServer) ConnectedWebsockets() []string {
 }
 
 func (server *WebsocketServer) DisconnectConnections() {
-	server.Base.Mutex.Lock()
-	defer server.Base.Mutex.Unlock()
+	server.mutex.Lock()
+	defer server.mutex.Unlock()
 	for _, user := range server.UserIdMap {
 		for _, connection := range user.connections {
 			connection.watchdog.Reset(1 * time.Nanosecond)
@@ -48,8 +54,7 @@ func CreateWebsocketServer() *WebsocketServer {
 		WsListener:      nil,
 		ConnectionIdMap: map[string]*User{},
 		UserIdMap:       map[int]*User{},
-
-		Base: ServerUtilities.CreateServerBase(),
+		mutex:           &sync.Mutex{},
 	}
 	return server
 }

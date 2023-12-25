@@ -91,13 +91,13 @@ func (server *UserServer) handleAuthenticate(incomingTcpConnection *net.Conn, me
 }
 
 func (server *UserServer) handleNewGuest(incomingTcpConnection *net.Conn, messageData1, messageData2 []string) {
-	user := server.insertUser(server.Base.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS),
-		Utilities.SHA256string(server.Base.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS)),
+	user := server.insertUser(server.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS),
+		Utilities.SHA256string(server.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS)),
 		"", "", "", UserUtilities.USER_POWER_GUEST, time.Now(), Utilities.GetNullTime(), Utilities.GetNullTime(), false, UserUtilities.COMMUNICATOR_CONTENT_CONTACTS, true, UserUtilities.UI_THEME_DARK)
 
 	for i := 0; user == nil && i < MAX_NEW_USER_ATTEMPTS; i++ {
-		user = server.insertUser(server.Base.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS),
-			Utilities.SHA256string(server.Base.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS)),
+		user = server.insertUser(server.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS),
+			Utilities.SHA256string(server.Random.GenerateRandomString(UserUtilities.DEFAULT_USERNAME_LENGTH, UserUtilities.VALID_USERNAME_CHARS)),
 			"", "", "", UserUtilities.USER_POWER_GUEST, time.Now(), (time.Time{}), (time.Time{}), false, UserUtilities.COMMUNICATOR_CONTENT_CONTACTS, true, UserUtilities.UI_THEME_DARK)
 	}
 	if user != nil {
