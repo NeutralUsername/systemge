@@ -1,4 +1,4 @@
-# distributed system project in go
+# backend framework for web(socket) based realtime applications
 
 requirements:  
 golang 1.21.3
